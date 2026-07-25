@@ -281,6 +281,7 @@ body {
   border-radius: 16px;
   padding: 16px;
   display: flex;
+  height: 100%;
   flex-direction: column;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(226, 232, 240, 0.6);
