@@ -2,7 +2,16 @@ import React from 'react';
 import { Link } from 'react-router';
 import { books } from '../data/mockData';
 
-export function CatalogPage() {
+export function CatalogPage({ searchQuery = '' }) {
+  // Фильтруем список книг по переданному тексту поиска
+  const filteredBooks = books.filter((book) => {
+    const query = searchQuery.toLowerCase();
+    const titleMatch = book.title ? book.title.toLowerCase().includes(query) : false;
+    const authorMatch = book.author ? book.author.toLowerCase().includes(query) : false;
+
+    return titleMatch || authorMatch;
+  });
+
   return (
     <>
       <div className="subheader">
@@ -15,7 +24,7 @@ export function CatalogPage() {
       </div>
 
       <div className="books-grid">
-        {books.map((book) => (
+        {filteredBooks.map((book) => (
           <Link to={`/book/${book.id}`} key={book.id} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className="book-card">
               <div className="book-cover-wrapper">
@@ -25,7 +34,9 @@ export function CatalogPage() {
                 <h3 className="book-title">{book.title}</h3>
                 <p className="book-author">{book.author}</p>
                 <div className="book-footer">
-                  <span className="status-badge">{book.status || (book.is_taken ? "Взята" : "У меня")}</span>
+                  <span className="status-badge" style={{ backgroundColor: book.is_taken ? '#fce8e6' : '', color: book.is_taken ? '#c5221f' : '' }}>
+                    {book.status || (book.is_taken ? "Взята" : "У меня")}
+                  </span>
                   <button className="more-btn">⋮</button>
                 </div>
               </div>

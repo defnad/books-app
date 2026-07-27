@@ -4,7 +4,7 @@ export const books = [
     title: "1984",
     author: "Джордж Оруэлл",
     release_year: 1949,
-    is_taken: false,
+    is_taken: true,
     image: "https://avatars.mds.yandex.net/get-mpic/4322217/2a000001955ef6c67e532078f44710ab9f46/orig"
   },
   {
@@ -20,7 +20,7 @@ export const books = [
     title: "Маленький принц",
     author: "Антуан де Сент-Экзюпери",
     release_year: 1943,
-    is_taken: false,
+    is_taken: true,
     image: "https://content.img-gorod.ru/pim/products/images/56/df/018ee907-10d9-7252-b881-7425f1af56df.jpg"
   },
   {
