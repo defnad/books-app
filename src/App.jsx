@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { CatalogPage } from './pages/CatalogPage';
 import { BookPage } from './pages/BookPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { SettingsPage } from './pages/SettingsPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<CatalogPage />} />
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
     </div>

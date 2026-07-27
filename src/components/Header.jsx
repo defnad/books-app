@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Bell } from 'lucide-react';
 import { books } from '../data/mockData';
 
 export function Header() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+
+  const getPageTitle = () => {
+    if (location.pathname === '/profile') return 'Профиль';
+    if (location.pathname === '/settings') return 'Настройки';
+    return 'Библиотека';
+  };
 
   return (
     <header className="header">
-      <h1 className="page-title">Библиотека</h1>
+      <h1 className="page-title">{getPageTitle()}</h1>
       <div className="header-right">
         <div className="search-wrapper">
           <span className="search-icon">

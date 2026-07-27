@@ -28,7 +28,7 @@ export const books = [
     title: "451 градус по Фаренгейту",
     author: "Рэй Брэдбери",
     release_year: 1953,
-    is_taken: false,
+    is_borrowed: true,
     image: "https://content.img-gorod.ru/pim/products/images/54/89/018f5ee3-5629-7ce8-b5c1-88044a5c5489.jpg"
   },
   {

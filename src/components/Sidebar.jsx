@@ -1,30 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, UserRound, Settings, LogOut, BookText } from 'lucide-react';
 
 export function Sidebar() {
+  const location = useLocation();
+
+  const navItems = [
+    { path: '/', label: 'Библиотека', icon: BookText },
+    { path: '/profile', label: 'Профиль', icon: UserRound },
+    { path: '/settings', label: 'Настройки', icon: Settings },
+  ];
+
   return (
     <aside className="sidebar">
       <div className="logo-section">
         <div className="logo-icon">
           <BookOpen size={22} color="#ffffff" />
         </div>
-        <div className="logo-text-wrapper">
+        <div>
           <div className="logo-text">Bookly</div>
           <div className="logo-sub">моя библиотека</div>
         </div>
       </div>
 
       <nav className="menu-links">
-        <Link to="/" className="menu-link active">
-          <BookText size={18} /> Библиотека
-        </Link>
-        <Link to="/profile" className="menu-link">
-          <UserRound size={18} /> Профиль
-        </Link>
-        <Link to="/settings" className="menu-link">
-          <Settings size={18} /> Настройки
-        </Link>
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`menu-link ${isActive ? 'active' : ''}`}
+            >
+              <Icon size={18} />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="logout-section">
