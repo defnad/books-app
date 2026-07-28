@@ -4,7 +4,16 @@ import { books } from '../data/mockData';
 
 export function CatalogPage({ searchQuery = '' }) {
   const [activeTab, setActiveTab] = useState('my');
+
+  // Заглушка для функций в разработке (из кода напарницы)
+  const showDevelopmentMessage = (e) => {
+    e?.stopPropagation?.();
+    e?.preventDefault?.();
+    alert('⏳ Ещё в разработке');
+  };
+
   const query = searchQuery.toLowerCase().trim();
+
   // Фильтрация книг по вкладке и названию/автору
   const filteredBooks = books.filter((book) => {
     if (activeTab === 'given') {
@@ -51,7 +60,10 @@ export function CatalogPage({ searchQuery = '' }) {
           })}
         </div>
 
-        <button className="add-book-btn">+ Добавить книгу</button>
+        {/* Кнопка с заглушкой из её кода */}
+        <button className="add-book-btn" onClick={showDevelopmentMessage}>
+          + Добавить книгу
+        </button>
       </div>
 
       {/* Сетка карточек книг */}
@@ -88,17 +100,32 @@ export function CatalogPage({ searchQuery = '' }) {
                   <p className="book-author">{book.author}</p>
 
                   <div className="book-footer">
-                    {/* Статус книги */}
+                    {/* Статус книги с остановкой всплытия события */}
                     <span
                       className="status-badge"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        showDevelopmentMessage(e);
+                      }}
                       style={{
                         backgroundColor: statusBg,
                         color: statusColor,
+                        cursor: 'pointer',
                       }}
                     >
                       {statusText}
                     </span>
-                    <button className="more-btn">⋮</button>
+
+                    {/* Кнопка действий с остановкой всплытия */}
+                    <button
+                      className="more-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        showDevelopmentMessage(e);
+                      }}
+                    >
+                      ⋮
+                    </button>
                   </div>
                 </div>
               </div>
@@ -106,9 +133,13 @@ export function CatalogPage({ searchQuery = '' }) {
           );
         })}
 
-        {/* Карточку добавления показываем только на вкладке "Мои книги" */}
+        {/* Карточка добавления тоже с заглушкой при клике */}
         {activeTab === 'my' && (
-          <div className="book-card add-card-placeholder">
+          <div
+            className="book-card add-card-placeholder"
+            onClick={showDevelopmentMessage}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="add-placeholder-content">
               <span className="plus-icon">+</span>
               <p>Добавить книгу</p>

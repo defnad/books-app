@@ -9,12 +9,27 @@ export function BookPage() {
   if (!book) return <h2>Книга не найдена!</h2>;
 
   return (
-    <div className="main-content">
-      <Link to="/" className="menu-link">← Назад в библиотеку</Link>
+    <div className="main-content" style={{ textAlign: 'center' }}>
+      <Link to="/" className="menu-link" style={{ display: 'block', textAlign: 'left' }}>← Назад в библиотеку</Link>
       
-      <div className="book-card" style={{ marginTop: '20px' }}>
-        <h1>{book.title}</h1>
-        <p>Автор: {book.author}</p>
+      <div style={{ marginTop: '20px' }}>
+        <img 
+          src={book.image} 
+          alt={book.title} 
+          style={{ 
+            width: '100%', 
+            maxWidth: '400px', 
+            borderRadius: '12px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            display: 'block',
+            margin: '0 auto'
+          }} 
+        />
+        <div style={{ marginTop: '20px' }}>
+          <h3 style={{ margin: '8px 0' }}>{book.title}</h3>
+          <h3 style={{ margin: '8px 0', fontWeight: 'normal' }}>Автор: {book.author}</h3>
+          <h3 style={{ margin: '8px 0', fontWeight: 'normal', color: '#555' }}>Год выпуска: {book.release_year}</h3>
+        </div>
       </div>
     </div>
   );
