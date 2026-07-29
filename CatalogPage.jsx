@@ -8,7 +8,7 @@ export function CatalogPage() {
       <div className="subheader">
         <div className="tabs">
           <button className="tab-btn active">Мои книги</button>
-          <button className="tab-btn">Отдал</button>
+          <button className="tab-btn">Отдалось</button>
           <button className="tab-btn">Взял</button>
         </div>
         <button className="add-book-btn">+ Добавить книгу</button>
