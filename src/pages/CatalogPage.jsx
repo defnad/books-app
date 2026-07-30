@@ -4,14 +4,6 @@ import { books } from '../data/mockData';
 
 export function CatalogPage({ searchQuery = '' }) {
   const [activeTab, setActiveTab] = useState('my');
-
-  // Заглушка для функций в разработке (из кода напарницы)
-  const showDevelopmentMessage = (e) => {
-    e?.stopPropagation?.();
-    e?.preventDefault?.();
-    alert('⏳ Ещё в разработке');
-  };
-
   const query = searchQuery.toLowerCase().trim();
 
   // Фильтрация книг по вкладке и названию/автору
@@ -61,9 +53,11 @@ export function CatalogPage({ searchQuery = '' }) {
         </div>
 
         {/* Кнопка с заглушкой из её кода */}
-        <button className="add-book-btn" onClick={showDevelopmentMessage}>
-          + Добавить книгу
+        <Link to="/addbook">
+        <button className="add-book-btn">
+          + Добавить книгe
         </button>
+        </Link>
       </div>
 
       {/* Сетка карточек книг */}
@@ -133,11 +127,10 @@ export function CatalogPage({ searchQuery = '' }) {
           );
         })}
 
-        {/* Карточка добавления тоже с заглушкой при клике */}
         {activeTab === 'my' && (
+          <Link to ="/addbook">
           <div
             className="book-card add-card-placeholder"
-            onClick={showDevelopmentMessage}
             style={{ cursor: 'pointer' }}
           >
             <div className="add-placeholder-content">
@@ -145,8 +138,10 @@ export function CatalogPage({ searchQuery = '' }) {
               <p>Добавить книгу</p>
             </div>
           </div>
+          </Link>
         )}
       </div>
+
     </>
   );
 }
