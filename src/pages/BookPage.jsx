@@ -12,6 +12,7 @@ export function BookPage() {
     <div className="main-content" style={{ textAlign: 'center' }}>
       <Link to="/" className="menu-link" style={{ display: 'block', textAlign: 'left' }}>← Назад в библиотеку</Link>
       
+      
       <div style={{ marginTop: '20px' }}>
         <img 
           src={book.image} 

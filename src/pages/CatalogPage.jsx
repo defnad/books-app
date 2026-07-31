@@ -55,7 +55,7 @@ export function CatalogPage({ searchQuery = '' }) {
         {/* Кнопка с заглушкой из её кода */}
         <Link to="/addbook">
         <button className="add-book-btn">
-          + Добавить книгe
+          + Добавить книгу
         </button>
         </Link>
       </div>
