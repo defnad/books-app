@@ -9,6 +9,7 @@ export function AddBookPage({ onAddBook }) {
   const [cover, setCover] = useState('');
 
   const isFormValid = title.trim() !== '';
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

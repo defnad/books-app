@@ -18,14 +18,20 @@ function App() {
     setBooks([...books, bookWithId]);
   };
 
+  const handleDeleteBook = (id) => {
+    if (window.confirm('Вы уверены, что хотите удалить эту книгу?')) {
+      setBooks(books.filter(book => book.id !== id));
+    }
+  };
+
   return (
     <div className="app-container">
       <Sidebar />
       <main className="main-content">
         <Header />
         <Routes>
-          <Route path="/" element={<CatalogPage books={books} />} />
-          <Route path="/book/:id" element={<BookPage />} />
+          <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} />} />
+          <Route path="/book/:id" element={<BookPage books={books} />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/addbook" element={<AddBookPage onAddBook={handleAddBook} />} />
