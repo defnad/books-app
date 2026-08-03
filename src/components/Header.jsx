@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Search, Bell, BellOff } from 'lucide-react';
-import { books } from '../data/mockData';
 
-export function Header() {
-  const [query, setQuery] = useState('');
+export function Header({ searchQuery, setSearchQuery }) {
   const [isBellOn, setIsBellOn] = useState(true);
-  
-  const navigate = useNavigate();
   const location = useLocation();
 
   const toggleBell = () => {
@@ -29,23 +25,11 @@ export function Header() {
             <Search size={16} />
           </span>
           <input
-            type="text" 
-            placeholder="Поиск книг по названию, автору..." 
+            type="text"
+            placeholder="Поиск книг по названию, автору..."
             className="search-input"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                const book = books.find(b => 
-                  b.title.toLowerCase().includes(query.toLowerCase()) || 
-                  b.author.toLowerCase().includes(query.toLowerCase())
-                );
-                if (book) {
-                  navigate(`/book/${book.id}`);
-                  setQuery('');
-                }
-              }
-            }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 

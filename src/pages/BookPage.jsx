@@ -7,14 +7,24 @@ export function BookPage({ books }) {
 
   if (!book) return <h2>Книга не найдена!</h2>;
 
+  // Используем cover, если есть, иначе image
+  const bookCover = book.cover ? book.cover : book.image;
+
   return (
     <div className="main-content" style={{ textAlign: 'center' }}>
       <Link to="/" className="menu-link" style={{ display: 'block', textAlign: 'left' }}>← Назад в библиотеку</Link>
       <div style={{ marginTop: '20px' }}>
         <img 
-          src={book.image} 
+          src={bookCover} 
           alt={book.title} 
-          style={{ width: '100%', maxWidth: '400px', borderRadius: '12px', boxShadow: '0 8px 24px rgba(0,0,0,0.2)', display: 'block', margin: '0 auto' }} 
+          style={{ 
+            width: '100%', 
+            maxWidth: '400px', 
+            borderRadius: '12px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            display: 'block',
+            margin: '0 auto'
+          }} 
         />
         <div style={{ marginTop: '20px' }}>
           <h3>{book.title}</h3>

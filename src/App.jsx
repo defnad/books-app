@@ -12,21 +12,16 @@ import { books as initialBooks } from './data/mockData';
 
 function App() {
   const [books, setBooks] = useState(initialBooks);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleAddBook = (newBook) => {
     const bookWithId = { ...newBook, id: Date.now() };
-    console.log('Добавляем книгу:', bookWithId);
     setBooks([...books, bookWithId]);
   };
 
   const handleDeleteBook = (id) => {
-    console.log('Запрошено удаление книги с id:', id);
     if (window.confirm('Вы уверены, что хотите удалить эту книгу?')) {
-      setBooks(prevBooks => {
-        const newBooks = prevBooks.filter(book => book.id !== id);
-        console.log('После удаления осталось книг:', newBooks.length);
-        return newBooks;
-      });
+      setBooks(books.filter(book => book.id !== id));
     }
   };
 
@@ -34,9 +29,9 @@ function App() {
     <div className="app-container">
       <Sidebar />
       <main className="main-content">
-        <Header />
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <Routes>
-          <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} />} />
+          <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} searchQuery={searchQuery} />} />
           <Route path="/book/:id" element={<BookPage books={books} />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
