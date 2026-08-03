@@ -5,6 +5,8 @@ export function CatalogPage({ books, onDeleteBook, searchQuery = '' }) {
   const [activeTab, setActiveTab] = useState('my');
   const query = searchQuery.toLowerCase().trim();
 
+  console.log('CatalogPage получил books:', books);
+
   const filteredBooks = books.filter((book) => {
     if (activeTab === 'given') {
       if (!book.is_taken) return false;
@@ -58,33 +60,40 @@ export function CatalogPage({ books, onDeleteBook, searchQuery = '' }) {
           }
 
           return (
-            <Link to={`/book/${book.id}`} key={book.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div className="book-card">
-                <div className="book-cover-wrapper">
-                  <img src={bookCover} alt={book.title} className="book-cover" />
-                </div>
-                <div className="book-info">
-                  <h3 className="book-title">{book.title}</h3>
-                  <p className="book-author">{book.author}</p>
-                  <div className="book-footer">
-                    <span className="status-badge" style={{ backgroundColor: statusBg, color: statusColor }}>
-                      {statusText}
-                    </span>
-                    <button
-                      className="more-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (onDeleteBook) {
-                          onDeleteBook(book.id);
-                        }
-                      }}
-                    >
-                      ⋮
-                    </button>
+            <div key={book.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to={`/book/${book.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="book-card">
+                  <div className="book-cover-wrapper">
+                    <img src={bookCover} alt={book.title} className="book-cover" />
+                  </div>
+                  <div className="book-info">
+                    <h3 className="book-title">{book.title}</h3>
+                    <p className="book-author">{book.author}</p>
+                    <div className="book-footer">
+                      <span className="status-badge" style={{ backgroundColor: statusBg, color: statusColor }}>
+                        {statusText}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+              {/* Кнопка удаления вынесена за пределы Link, чтобы не перехватывать клик */}
+              <button
+                className="more-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log('Нажата кнопка удаления для книги с id:', book.id);
+                  if (onDeleteBook) {
+                    onDeleteBook(book.id);
+                  } else {
+                    console.error('onDeleteBook не передан!');
+                  }
+                }}
+                style={{ position: 'relative', top: '-40px', left: 'calc(100% - 40px)', background: 'transparent', border: 'none', fontSize: '24px', cursor: 'pointer' }}
+              >
+                ⋮
+              </button>
+            </div>
           );
         })}
 

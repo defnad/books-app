@@ -15,12 +15,18 @@ function App() {
 
   const handleAddBook = (newBook) => {
     const bookWithId = { ...newBook, id: Date.now() };
+    console.log('Добавляем книгу:', bookWithId);
     setBooks([...books, bookWithId]);
   };
 
   const handleDeleteBook = (id) => {
+    console.log('Запрошено удаление книги с id:', id);
     if (window.confirm('Вы уверены, что хотите удалить эту книгу?')) {
-      setBooks(books.filter(book => book.id !== id));
+      setBooks(prevBooks => {
+        const newBooks = prevBooks.filter(book => book.id !== id);
+        console.log('После удаления осталось книг:', newBooks.length);
+        return newBooks;
+      });
     }
   };
 
