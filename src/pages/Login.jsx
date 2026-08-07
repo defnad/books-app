@@ -89,6 +89,4 @@ const Login = () => {
     </div>
   );
 };
-
-// ✅ Вот эта строка обязательна, чтобы App.jsx мог найти ваш компонент!
 export default Login; 
