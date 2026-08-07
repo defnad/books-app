@@ -9,6 +9,8 @@ import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { AddBookPage } from "./pages/AddBookPage";
 import { books as initialBooks } from './data/mockData';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   const [books, setBooks] = useState(initialBooks);
@@ -26,19 +28,28 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <Sidebar />
-      <main className="main-content">
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Routes>
-          <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} searchQuery={searchQuery} />} />
-          <Route path="/book/:id" element={<BookPage books={books} />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/addbook" element={<AddBookPage onAddBook={handleAddBook} />} />
-        </Routes>
-      </main>
-    </div>
+    <Routes>
+      {/* 1. СТРАНИЦЫ ВНЕ МЕНЮ (вход и регистрация) */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* 2. ОСНОВНОЕ ПРИЛОЖЕНИЕ С БОКОВЫМ МЕНЮ */}
+      <Route path="/*" element={
+        <div className="app-container">
+          <Sidebar />
+          <main className="main-content">
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <Routes>
+              <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} searchQuery={searchQuery} />} />
+              <Route path="/book/:id" element={<BookPage books={books} />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/addbook" element={<AddBookPage onAddBook={handleAddBook} />} />
+            </Routes>
+          </main>
+        </div>
+      } />
+    </Routes>
   );
 }
 

@@ -77,7 +77,6 @@ export function CatalogPage({ books, onDeleteBook, searchQuery = '' }) {
                   </div>
                 </div>
               </Link>
-              {/* Кнопка удаления вынесена за пределы Link, чтобы не перехватывать клик */}
               <button
                 className="more-btn"
                 onClick={(e) => {
