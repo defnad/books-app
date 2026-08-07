@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
-  // Строго name, как сказал учитель
   const [formData, setFormData] = useState({ email: '', name: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
