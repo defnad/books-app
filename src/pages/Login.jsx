@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie'; // Импортируем хук для куки
+import { useCookies } from 'react-cookie';
 import './Login.css';
 
 const Login = () => {
@@ -9,8 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Инициализируем куки
-  const [cookies, setCookie] = useCookies(['authToken', 'userEmail']);
+  const [cookies, setCookie] = useCookies(['sessionId', 'userId', 'isAuth']);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,21 +42,21 @@ const Login = () => {
         throw new Error(data.message || 'Неверный логин или пароль');
       }
 
-      // ✅ Сохраняем токен и почту в куки (на 1 день)
-      if (data.token) {
-        setCookie('authToken', data.token, { path: '/', maxAge: 86400 });
-        setCookie('userEmail', formData.email, { path: '/', maxAge: 86400 });
+      // ✅ Сохраняем СЕССИЮ, ID и флаг авторизации в куки
+      if (data.session_id) {
+        setCookie('sessionId', data.session_id, { path: '/', maxAge: 86400 });
+        setCookie('userId', data.user_id, { path: '/', maxAge: 86400 });
+        setCookie('isAuth', 'true', { path: '/', maxAge: 86400 });
 
-        // Выводим сохранённые данные в консоль браузера (F12 → Console)
-        console.log('✅ Куки успешно сохранены при входе!');
-        console.log('🔑 Токен:', data.token);
-        console.log('📧 Почта:', formData.email);
+        console.log('✅ Куки успешно сохранены!');
+        console.log('🔑 session_id:', data.session_id);
+        console.log('👤 user_id:', data.user_id);
       } else {
-        console.warn('⚠️ Бэкенд не вернул токен. Куки не сохранены.');
+        console.warn('⚠️ Бэкенд не вернул session_id.');
       }
 
       alert('Добро пожаловать!');
-      navigate('/'); // Переход в каталог
+      navigate('/'); 
 
     } catch (err) {
       setError(err.message);
@@ -91,4 +90,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+// ✅ Вот эта строка обязательна, чтобы App.jsx мог найти ваш компонент!
+export default Login; 
