@@ -1,8 +1,24 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { BookOpen, UserRound, Settings, LogOut, BookText } from 'lucide-react';
 
 export function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [, , removeCookie] = useCookies(['isAuth', 'userId', 'sessionId']);
+
+  // Функция выхода из системы
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    // Удаляем все куки авторизации
+    removeCookie('isAuth', { path: '/' });
+    removeCookie('userId', { path: '/' });
+    removeCookie('sessionId', { path: '/' });
+
+    // Перенаправляем на страницу входа
+    navigate('/login');
+  };
 
   const navItems = [
     { path: '/', label: 'Библиотека', icon: BookText },
@@ -41,10 +57,14 @@ export function Sidebar() {
       </nav>
 
       <div className="logout-section">
-        <Link to="/logout" className="logout-link">
+        <button 
+          onClick={handleLogout} 
+          className="logout-link"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}
+        >
           <LogOut size={18} />
           <span>Выйти</span>
-        </Link>
+        </button>
       </div>
     </aside>
   );

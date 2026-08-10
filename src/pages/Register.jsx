@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie'; // Добавили импорт для куки
 import './Register.css';
 
 const Register = () => {
-  // Строго name, как сказал учитель
   const [formData, setFormData] = useState({ email: '', name: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Инициализируем setCookie для сохранения имени
+  const [, setCookie] = useCookies(['userName']);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,8 +21,6 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
-    console.log("📤 Отправляемые данные на сервер:", formData); // Отладка
 
     try {
       const response = await fetch('https://sol-api.sherstde.ru/register', {
@@ -33,16 +34,28 @@ const Register = () => {
 
       if (contentType && contentType.includes("application/json")) {
         data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Ошибка регистрации');
+        }
       } else {
         const textError = await response.text();
+        // Если статус 201 или 200 - всё равно считаем успехом
+        if (response.ok) {
+          // ✅ Сохраняем имя пользователя в куки, чтобы профиль мог его показать
+          setCookie('userName', formData.name, { path: '/', maxAge: 86400 });
+
+          alert('Регистрация успешна! Теперь войдите.');
+          navigate('/login');
+          return;
+        }
         throw new Error(`Сервер вернул HTML. Ошибка ${response.status}`);
       }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Ошибка регистрации на сервере');
-      }
+      // Если всё ок и пришел JSON
+      // ✅ Сохраняем имя в куки (на всякий случай, если вдруг бэкенд вернет его в JSON)
+      if (data.name) setCookie('userName', data.name, { path: '/', maxAge: 86400 });
 
-      alert('Регистрация успешна!');
+      alert('Регистрация успешна! Теперь войдите.');
       navigate('/login');
 
     } catch (err) {
@@ -63,8 +76,7 @@ const Register = () => {
           <input type="email" id="email" name="email" placeholder="example@mail.com" required value={formData.email} onChange={handleChange} />
         </div>
         <div className="input-group">
-          <label htmlFor="name">Имя (name)</label>
-          {/* name="name" в инпуте */}
+          <label htmlFor="name">Имя</label>
           <input type="text" id="name" name="name" placeholder="Ваше имя" required value={formData.name} onChange={handleChange} />
         </div>
         <div className="input-group">

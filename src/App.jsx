@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { CatalogPage } from './pages/CatalogPage';
@@ -15,6 +16,12 @@ import Register from './pages/Register';
 function App() {
   const [books, setBooks] = useState(initialBooks);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [cookies] = useCookies(['isAuth', 'userId']);
+
+  // Стейт для отслеживания, проверили ли мы уже авторизацию
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const handleAddBook = (newBook) => {
     const bookWithId = { ...newBook, id: Date.now() };
@@ -27,13 +34,49 @@ function App() {
     }
   };
 
+  // ===== ЗАЩИТА МАРШРУТОВ =====
+  useEffect(() => {
+    const publicPaths = ['/login', '/register'];
+
+    // Если пользователь уже на странице логина/регистрации, пропускаем проверку
+    if (publicPaths.includes(location.pathname)) {
+      setIsAuthChecked(true);
+      return;
+    }
+
+    // Смотрим на куки (isAuth или userId считаются авторизацией)
+    const isAuth = cookies.isAuth === 'true' || !!cookies.userId;
+
+    if (!isAuth) {
+      // Если не авторизован - кидаем на логин
+      navigate('/login');
+    } else {
+      // Если авторизован - разрешаем загрузку приложения
+      setIsAuthChecked(true);
+    }
+  }, [cookies.isAuth, cookies.userId, location.pathname, navigate]);
+
+  // ПОКА НЕ ПРОВЕРИЛИ АВТОРИЗАЦИЮ - НЕ РЕНДЕРИМ ПРИЛОЖЕНИЕ
+  if (!isAuthChecked && !['/login', '/register'].includes(location.pathname)) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh', 
+        fontSize: '20px', 
+        color: '#555' 
+      }}>
+        Проверка авторизации...
+      </div>
+    );
+  }
+
+  // ===== МАРШРУТИЗАЦИЯ =====
   return (
     <Routes>
-      {/* 1. СТРАНИЦЫ ВНЕ МЕНЮ (вход и регистрация) */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
-      {/* 2. ОСНОВНОЕ ПРИЛОЖЕНИЕ С БОКОВЫМ МЕНЮ */}
       <Route path="/*" element={
         <div className="app-container">
           <Sidebar />

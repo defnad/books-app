@@ -9,7 +9,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const [cookies, setCookie] = useCookies(['sessionId', 'userId', 'isAuth']);
+  // Добавили removeCookie для очистки старых данных
+  const [cookies, setCookie, removeCookie] = useCookies(['sessionId', 'userId', 'isAuth', 'userEmail']);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +23,7 @@ const Login = () => {
     setError('');
 
     try {
+      // ✅ Прямая ссылка, как в самом начале (без /api, без прокси)
       const response = await fetch('https://sol-api.sherstde.ru/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,30 +35,30 @@ const Login = () => {
 
       if (contentType && contentType.includes("application/json")) {
         data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || `Ошибка сервера: ${response.status}`);
+        }
       } else {
         const textError = await response.text();
-        throw new Error(`Сервер вернул HTML. Ошибка ${response.status}`);
+        throw new Error(`Сервер вернул HTML с ошибкой ${response.status}.`);
       }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Неверный логин или пароль');
-      }
+      // ✅ ОЧИЩАЕМ старые куки (как просил учитель)
+      removeCookie('sessionId', { path: '/' });
+      removeCookie('userId', { path: '/' });
+      removeCookie('isAuth', { path: '/' });
+      removeCookie('userEmail', { path: '/' });
 
-      // ✅ Сохраняем СЕССИЮ, ID и флаг авторизации в куки
+      // ✅ ЗАПИСЫВАЕМ новые куки
       if (data.session_id) {
         setCookie('sessionId', data.session_id, { path: '/', maxAge: 86400 });
         setCookie('userId', data.user_id, { path: '/', maxAge: 86400 });
         setCookie('isAuth', 'true', { path: '/', maxAge: 86400 });
-
-        console.log('✅ Куки успешно сохранены!');
-        console.log('🔑 session_id:', data.session_id);
-        console.log('👤 user_id:', data.user_id);
-      } else {
-        console.warn('⚠️ Бэкенд не вернул session_id.');
+        setCookie('userEmail', formData.email, { path: '/', maxAge: 86400 });
       }
 
       alert('Добро пожаловать!');
-      navigate('/'); 
+      navigate('/');
 
     } catch (err) {
       setError(err.message);
@@ -90,5 +92,4 @@ const Login = () => {
   );
 };
 
-// ✅ Вот эта строка обязательна, чтобы App.jsx мог найти ваш компонент!
-export default Login; 
+export default Login;
