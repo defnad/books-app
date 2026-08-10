@@ -9,8 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Добавили removeCookie для очистки старых данных
-  const [cookies, setCookie, removeCookie] = useCookies(['sessionId', 'userId', 'isAuth', 'userEmail']);
+  const [cookies, setCookie, removeCookie] = useCookies(['sessionId', 'userId', 'isAuth', 'userEmail', 'userName']);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +22,6 @@ const Login = () => {
     setError('');
 
     try {
-      // ✅ Прямая ссылка, как в самом начале (без /api, без прокси)
       const response = await fetch('https://sol-api.sherstde.ru/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,13 +41,12 @@ const Login = () => {
         throw new Error(`Сервер вернул HTML с ошибкой ${response.status}.`);
       }
 
-      // ✅ ОЧИЩАЕМ старые куки (как просил учитель)
       removeCookie('sessionId', { path: '/' });
       removeCookie('userId', { path: '/' });
       removeCookie('isAuth', { path: '/' });
       removeCookie('userEmail', { path: '/' });
+      removeCookie('userName', { path: '/' });
 
-      // ✅ ЗАПИСЫВАЕМ новые куки
       if (data.session_id) {
         setCookie('sessionId', data.session_id, { path: '/', maxAge: 86400 });
         setCookie('userId', data.user_id, { path: '/', maxAge: 86400 });
@@ -92,4 +89,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+// ✅ ОБЯЗАТЕЛЬНО: ЭТА СТРОКА ДОЛЖНА БЫТЬ В САМОМ КОНЦЕ!
+export default Login; 
