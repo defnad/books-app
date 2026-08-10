@@ -6,7 +6,6 @@ const ApiTest = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Ваша функция с бэкендом
   const retext = async () => {
     setLoading(true);
     setError(null);
@@ -24,7 +23,7 @@ const ApiTest = () => {
     }
   };
 
-  // ВОТ КУДА ВСТАВЛЯЕТСЯ ВАШ КОД:
+  
   return (
     <div style={{ padding: '20px' }}>
       <h2>Тест подключения к бэкенду</h2>

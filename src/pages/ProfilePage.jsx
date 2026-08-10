@@ -2,16 +2,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BookOpen, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
+import { useUser } from '../context/UserContext'; // Импортируем контекст
 import { books as initialBooks } from '../data/mockData';
 
 export function ProfilePage() {
   const navigate = useNavigate();
+  const { user, updateUser } = useUser(); // Берём данные и функцию обновления из контекста
   
   const [cookies, , removeCookie] = useCookies(['userId', 'sessionId', 'isAuth', 'userEmail', 'userName']);
   const userId = cookies.userId;
   const sessionId = cookies.sessionId;
 
-  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const givenBooks = initialBooks.filter(b => b.is_taken);
@@ -25,12 +26,11 @@ export function ProfilePage() {
 
     const fetchUserProfile = async () => {
       try {
-        // 🔥 ИЗМЕНЕНИЕ: Заголовок теперь называется ровно SessionID
         const response = await fetch(`https://sol-api.sherstde.ru/user/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'SessionID': sessionId // Теперь отправляем как SessionID
+            'SessionID': sessionId
           }
         });
 
@@ -42,7 +42,6 @@ export function ProfilePage() {
             removeCookie('isAuth', { path: '/' });
             removeCookie('userEmail', { path: '/' });
             removeCookie('userName', { path: '/' });
-            
             navigate('/login'); 
             return; 
           }
@@ -50,8 +49,10 @@ export function ProfilePage() {
         }
 
         const data = await response.json();
-        setUserData(data);
-
+        // 💡 Синхронизируем данные с бэкенда с нашим контекстом
+        if (data.name || data.email) {
+          updateUser({ name: data.name, email: data.email });
+        }
       } catch (err) {
         console.error('❌ Ошибка при загрузке профиля:', err);
       } finally {
@@ -60,14 +61,15 @@ export function ProfilePage() {
     };
 
     fetchUserProfile();
-  }, [userId, sessionId, navigate, removeCookie]);
+  }, [userId, sessionId, navigate, removeCookie, updateUser]);
 
   if (!userId) return null; 
   if (loading) return <p style={{ padding: '20px' }}>Загрузка вашего профиля...</p>;
 
-  const displayName = userData?.name || 'Пользователь';
-  const displayEmail = userData?.email || 'email@mail.ru';
-  const displayAvatar = userData?.avatar || 'https://static.vecteezy.com/system/resources/previews/036/280/654/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg';
+  // ✅ Данные теперь берутся из контекста (а не из жестко зашитого объекта)
+  const displayName = user.name;
+  const displayEmail = user.email;
+  const displayAvatar = user.avatar;
 
   return (
     <div className="profile-container">
