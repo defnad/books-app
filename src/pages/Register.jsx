@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie'; // Добавили импорт для куки
+import { useCookies } from 'react-cookie';
+import { useUser } from '../context/UserContext'; // ✅ Импортируем контекст
 import './Register.css';
 
 const Register = () => {
@@ -9,8 +10,8 @@ const Register = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Инициализируем setCookie для сохранения имени
-  const [, setCookie] = useCookies(['userName']);
+  const [, setCookie] = useCookies(['userName', 'userEmail']);
+  const { updateUser } = useUser(); // ✅ Достаём функцию обновления контекста
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,10 +40,10 @@ const Register = () => {
         }
       } else {
         const textError = await response.text();
-        // Если статус 201 или 200 - всё равно считаем успехом
         if (response.ok) {
-          // ✅ Сохраняем имя пользователя в куки, чтобы профиль мог его показать
           setCookie('userName', formData.name, { path: '/', maxAge: 86400 });
+          setCookie('userEmail', formData.email, { path: '/', maxAge: 86400 });
+          updateUser({ name: formData.name, email: formData.email });
 
           alert('Регистрация успешна! Теперь войдите.');
           navigate('/login');
@@ -52,8 +53,10 @@ const Register = () => {
       }
 
       // Если всё ок и пришел JSON
-      // ✅ Сохраняем имя в куки (на всякий случай, если вдруг бэкенд вернет его в JSON)
-      if (data.name) setCookie('userName', data.name, { path: '/', maxAge: 86400 });
+      const userName = data.name || formData.name;
+      setCookie('userName', userName, { path: '/', maxAge: 86400 });
+      setCookie('userEmail', formData.email, { path: '/', maxAge: 86400 });
+      updateUser({ name: userName, email: formData.email });
 
       alert('Регистрация успешна! Теперь войдите.');
       navigate('/login');

@@ -14,15 +14,53 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 function App() {
-  const [books, setBooks] = useState(initialBooks);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const [cookies] = useCookies(['isAuth', 'userId']);
+  const userId = cookies.userId;
 
-  // Стейт для отслеживания, проверили ли мы уже авторизацию
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
+  // --- Загрузка книг из localStorage для текущего пользователя ---
+  const loadBooksForUser = (userId) => {
+    if (!userId) return []; // Если не авторизован, возвращаем пустой массив
+    const storageKey = `books_${userId}`;
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return [];
+      }
+    }
+    // Для НОВЫХ пользователей: создаём пустую полку навсегда
+    localStorage.setItem(storageKey, JSON.stringify([]));
+    return [];
+  };
+
+  const [books, setBooks] = useState(() => loadBooksForUser(userId));
+
+  // --- Сохранение книг в localStorage ---
+  const saveBooksForUser = (userId, booksToSave) => {
+    if (!userId) return;
+    const storageKey = `books_${userId}`;
+    localStorage.setItem(storageKey, JSON.stringify(booksToSave));
+  };
+
+  // При изменении userId (вход/выход) перезагружаем книги
+  useEffect(() => {
+    setBooks(loadBooksForUser(userId));
+  }, [userId]);
+
+  // При каждом изменении books сохраняем в localStorage
+  useEffect(() => {
+    if (userId) {
+      saveBooksForUser(userId, books);
+    }
+  }, [books, userId]);
+
+  // --- Обработчики ---
   const handleAddBook = (newBook) => {
     const bookWithId = { ...newBook, id: Date.now() };
     setBooks([...books, bookWithId]);
@@ -34,29 +72,32 @@ function App() {
     }
   };
 
+  const handleUpdateBook = (id, updates) => {
+    setBooks(prevBooks => 
+      prevBooks.map(book => 
+        book.id === id ? { ...book, ...updates } : book
+      )
+    );
+  };
+
   // ===== ЗАЩИТА МАРШРУТОВ =====
   useEffect(() => {
     const publicPaths = ['/login', '/register'];
 
-    // Если пользователь уже на странице логина/регистрации, пропускаем проверку
     if (publicPaths.includes(location.pathname)) {
       setIsAuthChecked(true);
       return;
     }
 
-    // Смотрим на куки (isAuth или userId считаются авторизацией)
     const isAuth = cookies.isAuth === 'true' || !!cookies.userId;
 
     if (!isAuth) {
-      // Если не авторизован - кидаем на логин
       navigate('/login');
     } else {
-      // Если авторизован - разрешаем загрузку приложения
       setIsAuthChecked(true);
     }
   }, [cookies.isAuth, cookies.userId, location.pathname, navigate]);
 
-  // ПОКА НЕ ПРОВЕРИЛИ АВТОРИЗАЦИЮ - НЕ РЕНДЕРИМ ПРИЛОЖЕНИЕ
   if (!isAuthChecked && !['/login', '/register'].includes(location.pathname)) {
     return (
       <div style={{ 
@@ -83,9 +124,19 @@ function App() {
           <main className="main-content">
             <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <Routes>
-              <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} searchQuery={searchQuery} />} />
+              <Route 
+                path="/" 
+                element={
+                  <CatalogPage 
+                    books={books} 
+                    onDeleteBook={handleDeleteBook} 
+                    onUpdateBook={handleUpdateBook} 
+                    searchQuery={searchQuery} 
+                  />
+                } 
+              />
               <Route path="/book/:id" element={<BookPage books={books} />} />
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage books={books} />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/addbook" element={<AddBookPage onAddBook={handleAddBook} />} />
             </Routes>

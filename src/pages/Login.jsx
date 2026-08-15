@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useUser } from '../context/UserContext';
 import './Login.css';
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [cookies, setCookie, removeCookie] = useCookies(['sessionId', 'userId', 'isAuth', 'userEmail', 'userName']);
+  const { updateUser } = useUser();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +54,10 @@ const Login = () => {
         setCookie('userId', data.user_id, { path: '/', maxAge: 86400 });
         setCookie('isAuth', 'true', { path: '/', maxAge: 86400 });
         setCookie('userEmail', formData.email, { path: '/', maxAge: 86400 });
+
+        const userName = data.user_name || cookies.userName || formData.email.split('@')[0];
+        setCookie('userName', userName, { path: '/', maxAge: 86400 });
+        updateUser({ name: userName, email: formData.email });
       }
 
       alert('Добро пожаловать!');
@@ -89,5 +95,4 @@ const Login = () => {
   );
 };
 
-// ✅ ОБЯЗАТЕЛЬНО: ЭТА СТРОКА ДОЛЖНА БЫТЬ В САМОМ КОНЦЕ!
-export default Login; 
+export default Login;
