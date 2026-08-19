@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import './App.css';
-import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
-import { CatalogPage } from './pages/CatalogPage';
-import { BookPage } from './pages/BookPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { SettingsPage } from './pages/SettingsPage';
-import { AddBookPage } from "./pages/AddBookPage";
-import { books as initialBooks } from './data/mockData';
-import Login from './pages/Login';
-import Register from './pages/Register';
+
+import { Sidebar } from './components/Sidebar/Sidebar';
+import { Header } from './components/Header/Header';
+
+import { CatalogPage } from './pages/Catalog/CatalogPage';
+import { BookPage } from './pages/Book/BookPage';
+import { ProfilePage } from './pages/Profile/ProfilePage';
+import { SettingsPage } from './pages/Settings/SettingsPage';
+import { AddBookPage } from './pages/AddBook/AddBookPage';
+import LoginPage from './pages/Login/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,7 +25,7 @@ function App() {
 
   // --- Загрузка книг из localStorage для текущего пользователя ---
   const loadBooksForUser = (userId) => {
-    if (!userId) return []; // Если не авторизован, возвращаем пустой массив
+    if (!userId) return [];
     const storageKey = `books_${userId}`;
     const stored = localStorage.getItem(storageKey);
     if (stored) {
@@ -34,7 +35,6 @@ function App() {
         return [];
       }
     }
-    // Для НОВЫХ пользователей: создаём пустую полку навсегда
     localStorage.setItem(storageKey, JSON.stringify([]));
     return [];
   };
@@ -48,12 +48,10 @@ function App() {
     localStorage.setItem(storageKey, JSON.stringify(booksToSave));
   };
 
-  // При изменении userId (вход/выход) перезагружаем книги
   useEffect(() => {
     setBooks(loadBooksForUser(userId));
   }, [userId]);
 
-  // При каждом изменении books сохраняем в localStorage
   useEffect(() => {
     if (userId) {
       saveBooksForUser(userId, books);
@@ -116,8 +114,8 @@ function App() {
   // ===== МАРШРУТИЗАЦИЯ =====
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
       <Route path="/*" element={
         <div className="app-container">
           <Sidebar />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 export function SettingsPage() {
   const { user, updateUser } = useUser();

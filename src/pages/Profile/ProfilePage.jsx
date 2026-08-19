@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { BookOpen, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 
 export function ProfilePage({ books }) {
