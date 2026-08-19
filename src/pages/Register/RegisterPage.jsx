@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useUser } from '../context/UserContext'; // ✅ Импортируем контекст
-import './Register.css';
+import { useUser } from '../../context/UserContext'; // ✅ Импортируем контекст
+import './RegisterPage.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({ email: '', name: '', password: '' });
