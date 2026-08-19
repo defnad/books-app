@@ -1,3 +1,4 @@
+import './Sidebar.css'
 import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, UserRound, Settings, LogOut, BookText } from 'lucide-react';
 

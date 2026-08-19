@@ -1,0 +1,51 @@
+.settings-container {
+  display: flex;
+  align-items: flex-start; 
+}
+
+.settings-card {
+  padding: 28px;
+  max-width: 520px;
+}
+
+.settings-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.form-input {
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: #6366f1;
+}
+
+.save-btn {
+  margin-top: 8px;
+  width: fit-content;
+}

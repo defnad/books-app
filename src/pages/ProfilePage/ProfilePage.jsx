@@ -1,6 +1,7 @@
+import './ProfilePage.css';
 import { Link } from 'react-router-dom';
 import { BookOpen, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
-import { books } from '../data/mockData';
+import { books } from '../../data/mockData';
 
 const USER = {
   name: 'Иван Иванов',

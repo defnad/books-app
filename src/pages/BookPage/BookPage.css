@@ -1,0 +1,289 @@
+/* Растягиваем контейнер на всю доступную ширину */
+.book-page-wrapper {
+  width: 100%;
+}
+
+.back-link-btn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.back-link-btn:hover {
+  color: #5b46f6;
+}
+
+/* Главная карточка-подложка */
+.book-card-container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  border: 1px solid #eef2f6;
+  width: 100%;
+}
+
+.book-main-section {
+  display: flex;
+  gap: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.book-cover-box {
+  width: 250px;
+  height: 350px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.book-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-details-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-title-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.book-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.book-author {
+  margin: 0 0 28px 0;
+  font-size: 16px;
+  color: #64748b;
+}
+
+/* Список характеристик ровно как на макете */
+.book-specs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.spec-name {
+  width: 150px;
+  color: #64748b;
+}
+
+.spec-val {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.highlight-person {
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Аккуратная маркерная плашка просрочки с Lucide-иконкой */
+.deadline-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.deadline-inline.expired {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+/* Статусы */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.in-stock {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.status-badge.given {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.status-badge.borrowed {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Единый фиолетовый стиль кнопок */
+.book-buttons-group {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.purple-btn {
+  background-color: #5b46f6;
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.purple-btn:hover {
+  background-color: #4c36e2;
+}
+
+.white-btn {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #e2e8f0;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.white-btn:hover {
+  background-color: #f8fafc;
+}
+
+/* Описание */
+.book-description-block {
+  padding-top: 32px;
+}
+
+.book-description-block h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.book-description-block p {
+  margin: 0;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Модалка */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-head h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-close-icon {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.modal-body-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-field-group label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.input-field-group input {
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-field-group input:focus {
+  border-color: #5b46f6;
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}

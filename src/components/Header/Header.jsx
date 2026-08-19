@@ -1,7 +1,8 @@
+import './Header.css';
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Bell } from 'lucide-react';
-import { books } from '../data/mockData';
+import { books } from '../../data/mockData';
 
 export function Header() {
   const [query, setQuery] = useState('');

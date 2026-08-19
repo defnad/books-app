@@ -1,6 +1,7 @@
+import './CatalogPage.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { books } from '../data/mockData';
+import { books } from '../../data/mockData';
 
 export function CatalogPage({ searchQuery = '' }) {
   const [activeTab, setActiveTab] = useState('my');

@@ -1,3 +1,4 @@
+import './SettingsPage.css';
 import React from 'react';
 
 export function SettingsPage() {
