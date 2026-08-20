@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useUser } from '../../context/UserContext';
+import './SettingsPage.css';
 
 export function SettingsPage() {
   const { user, updateUser } = useUser();

@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { BookOpen, UserRound, Settings, LogOut, BookText } from 'lucide-react';
+import './Sidebar.css';
 
 export function Sidebar() {
   const location = useLocation();

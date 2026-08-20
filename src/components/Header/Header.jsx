@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Search, Bell, BellOff } from 'lucide-react';
+import './Header.css';
 
 export function Header({ searchQuery, setSearchQuery }) {
   const [isBellOn, setIsBellOn] = useState(true);
