@@ -9,14 +9,11 @@ export function Sidebar() {
   const [, , removeCookie] = useCookies(['isAuth', 'userId', 'sessionId']);
 
   // Функция выхода из системы
-  const handleLogout = (e) => {
-    e.preventDefault();
-
+  const handleLogout = () => {
     // Удаляем все куки авторизации
     removeCookie('isAuth', { path: '/' });
     removeCookie('userId', { path: '/' });
     removeCookie('sessionId', { path: '/' });
-
     // Перенаправляем на страницу входа
     navigate('/login');
   };
@@ -58,11 +55,7 @@ export function Sidebar() {
       </nav>
 
       <div className="logout-section">
-        <button 
-          onClick={handleLogout} 
-          className="logout-link"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}
-        >
+        <button type="button" onClick={handleLogout} className="logout-btn">
           <LogOut size={18} />
           <span>Выйти</span>
         </button>
