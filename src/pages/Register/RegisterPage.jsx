@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useUser } from '../../context/UserContext'; // ✅ Импортируем контекст
+import { useUser } from '../../context/UserContext'; //  Импортируем контекст
 import './RegisterPage.css';
 
 const Register = () => {
@@ -11,7 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [, setCookie] = useCookies(['userName', 'userEmail']);
-  const { updateUser } = useUser(); // ✅ Достаём функцию обновления контекста
+  const { updateUser } = useUser(); //  Достаём функцию обновления контекста
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BookPickerModal } from './BookPickerModal';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
+import './CatalogPage.css';
 
 export function CatalogPage({ books = [], onDeleteBook, onUpdateBook, searchQuery = '' }) {
   const location = useLocation();

@@ -1,22 +1,17 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { BookOpen, UserRound, Settings, LogOut, BookText } from 'lucide-react';
+import './Sidebar.css';
 
 export function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [, , removeCookie] = useCookies(['isAuth', 'userId', 'sessionId']);
 
-  // Функция выхода из системы
-  const handleLogout = (e) => {
-    e.preventDefault();
-
-    // Удаляем все куки авторизации
+  const handleLogout = () => {
     removeCookie('isAuth', { path: '/' });
     removeCookie('userId', { path: '/' });
     removeCookie('sessionId', { path: '/' });
-
-    // Перенаправляем на страницу входа
     navigate('/login');
   };
 
@@ -41,7 +36,8 @@ export function Sidebar() {
       <nav className="menu-links">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+          
+          const isActive = location.pathname.startsWith(item.path) && (item.path !== '/' || !location.pathname.startsWith('/p') && !location.pathname.startsWith('/s'));
 
           return (
             <Link
@@ -57,11 +53,7 @@ export function Sidebar() {
       </nav>
 
       <div className="logout-section">
-        <button 
-          onClick={handleLogout} 
-          className="logout-link"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}
-        >
+        <button type="button" onClick={handleLogout} className="logout-btn">
           <LogOut size={18} />
           <span>Выйти</span>
         </button>
