@@ -33,11 +33,7 @@ export function AddBookPage({ onAddBook }) {
 
   return (
     <div className="addbook-pageContainer">
-      <button 
-        type="button" 
-        className="back-btn" 
-        onClick={() => navigate('/')}
-      >
+      <button type="button" className="back-btn" onClick={() => navigate('/')}>
         <ArrowLeft size={18} />
         <span>Назад в библиотеку</span>
       </button>

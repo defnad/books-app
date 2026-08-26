@@ -8,13 +8,10 @@ export function Sidebar() {
   const navigate = useNavigate();
   const [, , removeCookie] = useCookies(['isAuth', 'userId', 'sessionId']);
 
-  // Функция выхода из системы
   const handleLogout = () => {
-    // Удаляем все куки авторизации
     removeCookie('isAuth', { path: '/' });
     removeCookie('userId', { path: '/' });
     removeCookie('sessionId', { path: '/' });
-    // Перенаправляем на страницу входа
     navigate('/login');
   };
 
@@ -39,7 +36,8 @@ export function Sidebar() {
       <nav className="menu-links">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+          
+          const isActive = location.pathname.startsWith(item.path) && (item.path !== '/' || !location.pathname.startsWith('/p') && !location.pathname.startsWith('/s'));
 
           return (
             <Link
