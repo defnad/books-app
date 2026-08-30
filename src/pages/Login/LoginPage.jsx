@@ -60,7 +60,7 @@ const Login = () => {
         updateUser({ name: userName, email: formData.email });
       }
 
-      alert('Добро пожаловать!');
+      
       navigate('/');
 
     } catch (err) {
