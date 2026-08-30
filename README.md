@@ -1,16 +1,26 @@
-# React + Vite
+# Personal Library App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+ Веб-сервис для удобного учета и управления личной домашней библиотекой. Позволяет отслеживать свои книги, фиксировать передачу книг друзьям с контролем сроков возврата, а также вести учет взятых книг.
 
-Currently, two official plugins are available:
+## Основной функционал
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Каталог книг:** Удобное разделение по вкладкам («Мои книги», «Отдано», «Взято»).
+- **Поиск:** Живая фильтрация книг по названию и автору.
+- **Контроль возврата:** Указание имени читателя, даты возврата и автоматические предупреждения о просрочке.
+- **Управление карточками:** Добавление, редактирование информации и удаление книг.
+- **Профиль и настройки:** Персонализация пользовательских данных и параметров приложения.
 
-## React Compiler
+## Технологический стек
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Приложение разработано с использованием следующих технологий:
 
-## Expanding the Oxlint configuration
+- [React](https://react.dev/) — библиотека для построения пользовательских интерфейсов
+- [Vite](https://vitejs.dev/) — инструмент сборки
+- [React Router DOM](https://reactrouter.com/) — маршрутизация между страницами
+- [Lucide React](https://lucide.dev/) — набор иконки компонентов
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Запуск и разработка
+
+1. Установите зависимости проекта:
+   ```bash
+   npm install
