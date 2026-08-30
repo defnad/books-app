@@ -26,7 +26,7 @@
    git clone https://github.com/defnad/books-app.git
 2. Перейдите в папку проекта:
    ```bash
-   cd <название-папки-проекта>
+   cd books-app
 3. Установите зависимости проекта:
    ```bash
    npm install
