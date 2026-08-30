@@ -29,7 +29,6 @@
 }
 
 .book-details-card {
-  position: relative; /* Главный якорь для абсолюта формы */
   background: #ffffff;
   border-radius: 20px;
   padding: 2.2rem;
@@ -60,19 +59,30 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* 2. Средняя колонка — жесткие границы, ничего не ломает */
+/* 2. Правая колонка с информацией */
 .book-info-column {
-  width: 360px;
-  flex-shrink: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.book-header-section {
+  width: 100%;
 }
 
 .book-header-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   margin-bottom: 4px;
+}
+
+.book-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .book-main-title {
@@ -80,19 +90,36 @@
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  line-height: 1.2; /* Фиксирует высоту строки заголовка */
+  line-height: 1.2;
   display: inline-flex;
   align-items: center;
 }
 
 .book-status-badge {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 12px;
-  line-height: 1; /* Убирает лишние отступы внутри самого бейджа */
+  line-height: 1;
   display: inline-flex;
   align-items: center;
+}
+
+.return-date-badge {
+  padding: 6px 12px;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0369a1;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .book-author-name {
@@ -105,7 +132,7 @@
 .book-actions-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-give-book {
@@ -138,15 +165,21 @@
 }
 
 .btn-return-book {
-  background: #ef4444;
-  color: #ffffff;
-  border: none;
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
   padding: 9px 22px;
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   height: 38px;
+  transition: all 0.2s ease;
+}
+
+.btn-return-book:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .btn-edit-book {
@@ -165,8 +198,17 @@
   box-sizing: border-box;
 }
 
-/* Таблица параметров */
+/* Контейнер для таблицы и формы передачи */
+.book-body-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Таблица параметров занимает всё свободное место */
 .book-specs-table {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -192,20 +234,15 @@
   font-weight: 600;
 }
 
-/* 3. Плашка «Передача книги» — АБСОЛЮТНОЕ позиционирование */
+/* Форма передачи больше не абсолютная, а располагается справа */
 .borrow-card-panel {
-  position: absolute;
-  top: 2.2rem; /* Сверху ровно от padding карточки */
-  right: 2.2rem; /* Справа ровно от padding карточки */
   width: 250px;
-
+  flex-shrink: 0;
   background: #f8fafc;
-  border: 1px solid #f1f5f9;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 1.2rem;
   box-sizing: border-box;
-  z-index: 10;
-  margin-top: 64px; /* Ровно напротив кнопок */
 }
 
 .borrow-card-panel h3 {
@@ -214,7 +251,6 @@
   font-weight: 700;
   color: #0f172a;
   line-height: 1;
-  padding-top: 2px;
 }
 
 .borrow-card-panel form {
@@ -287,4 +323,39 @@
   line-height: 1.6;
   color: #475569;
   margin: 0;
+}
+
+/* Базовые стили для плашки возврата */
+.return-date-badge {
+  padding: 6px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+/* 🔵 Нормальный срок */
+.return-date-badge.norm {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+}
+
+/* 🟡 Срок поджимает (осталось <= 3 дней) */
+.return-date-badge.warning {
+  background-color: #fef3c7;
+  border: 1px solid #fde68a;
+  color: #b45309;
+}
+
+/* 🔴 Просрочено */
+.return-date-badge.expired {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
 }

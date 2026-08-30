@@ -9,3 +9,16 @@
   padding: 32px 40px;
   background-color: #f8fafc;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+

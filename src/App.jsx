@@ -13,6 +13,7 @@ import { SettingsPage } from './pages/Settings/SettingsPage';
 import { AddBookPage } from './pages/AddBook/AddBookPage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import { EditBookPage } from './pages/EditBookPage/EditBookPage';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,21 +29,15 @@ function App() {
 
       {/* Защищенные маршруты приложения */}
       <Route element={<ProtectedRoute searchQuery={searchQuery} setSearchQuery={setSearchQuery} />}>
-        <Route
-          path="/"
-          element={
-            <CatalogPage
-              books={books}
-              onDeleteBook={handleDeleteBook}
-              onUpdateBook={handleUpdateBook}
-              searchQuery={searchQuery}
-            />
-          }
-        />
-        <Route path="/book/:id" element={<BookPage books={books} />} />
-        <Route path="/profile" element={<ProfilePage books={books} />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/" element={<CatalogPage books={books} onDeleteBook={handleDeleteBook} onUpdateBook={handleUpdateBook} searchQuery={searchQuery}/>} />
+        <Route path="/book/:id" element={<BookPage books={books} onUpdateBook={handleUpdateBook} />} />
+        
+        {/* Передали books для экспорта файлов */}
+        <Route path="/settings" element={<SettingsPage books={books} />} />
+        
         <Route path="/addbook" element={<AddBookPage onAddBook={handleAddBook} />} />
+        <Route path="/edit/:id" element={<EditBookPage books={books} onUpdateBook={handleUpdateBook} />} />
+        <Route path="/profile" element={<ProfilePage books={books} onUpdateBook={handleUpdateBook} />} />
       </Route>
     </Routes>
   );

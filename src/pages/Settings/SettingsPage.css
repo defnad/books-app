@@ -1,23 +1,43 @@
 .settings-container {
+  width: 100%;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Две равные колонки */
+  gap: 20px;
+  align-items: start;
+}
+
+.settings-column {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .settings-card {
-  padding: 28px;
-  max-width: 520px;
+  padding: 24px;
+}
+
+.card-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: #6366f1;
 }
 
 .settings-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 0;
+  color: #1e293b;
 }
 
 .settings-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .form-group {
@@ -48,4 +68,173 @@
 .save-btn {
   margin-top: 8px;
   width: fit-content;
+}
+
+/* Строки с переключателями */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.setting-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.setting-desc {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* Тумблеры (Toggle Switches) */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6366f1;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Кнопки экспорта */
+.export-buttons-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid #6366f1;
+  background-color: #6366f1;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.export-btn:hover {
+  background-color: #4f46e5;
+}
+
+.export-btn.secondary {
+  background-color: transparent;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.export-btn.secondary:hover {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* На планшетах и мобилках сворачиваем обратно в 1 колонку */
+@media (max-width: 900px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Секция загрузки аватарки */
+.avatar-upload-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar-preview-wrapper {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.avatar-preview-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Кнопка опасных действий */
+.danger-btn {
+  color: #ef4444 !important;
+  border-color: #fca5a5 !important;
+}
+
+.danger-btn:hover {
+  background-color: #fef2f2 !important;
+  border-color: #ef4444 !important;
 }
