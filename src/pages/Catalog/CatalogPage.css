@@ -41,6 +41,8 @@
 }
 
 .add-book-btn {
+  display: inline-flex;
+  align-items: center;
   background-color: #5b46f6;
   color: #ffffff;
   border: none;
@@ -67,6 +69,7 @@
 .book-card-link {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
 .book-card {
@@ -127,33 +130,94 @@
   margin-top: auto;
 }
 
+/* Бейджи статусов */
 .status-badge {
-  background-color: #dcfce7;
-  color: #166534;
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.status-badge.taken {
+.status-badge.my-status {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.given-status {
   background-color: #fef2f2;
   color: #991b1b;
+}
+
+.status-badge.taken-status {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+/* Кнопка и выпадающее меню трех точек */
+.more-menu-container {
+  position: relative;
 }
 
 .more-btn {
   background: none;
   border: none;
-  font-size: 18px;
   color: #94a3b8;
   cursor: pointer;
-  padding: 0 4px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s, background-color 0.15s;
 }
 
 .more-btn:hover {
   color: #0f172a;
+  background-color: #f1f5f9;
 }
 
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  padding: 4px 0;
+  z-index: 20;
+  min-width: 145px;
+  border: 1px solid #e2e8f0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  transition: background-color 0.15s;
+}
+
+.dropdown-item:hover {
+  background-color: #f8fafc;
+}
+
+.dropdown-item.delete-item {
+  color: #ef4444;
+}
+
+.dropdown-item.delete-item:hover {
+  background-color: #fef2f2;
+}
+
+/* Плитка добавления книги */
 .add-card-placeholder {
   border: 2px dashed #cbd5e1;
   background: transparent;
@@ -191,7 +255,6 @@
 }
 
 .plus-icon {
-  font-size: 32px;
   display: block;
   margin-bottom: 8px;
 }
