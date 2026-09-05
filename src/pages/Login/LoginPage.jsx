@@ -24,7 +24,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://sol-api.sherstde.ru/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -60,7 +60,6 @@ const Login = () => {
         updateUser({ name: userName, email: formData.email });
       }
 
-      
       navigate('/');
 
     } catch (err) {

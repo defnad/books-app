@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useUser } from '../../context/UserContext'; //  Импортируем контекст
+import { useUser } from '../../context/UserContext';
 import './RegisterPage.css';
 
 const Register = () => {
@@ -11,7 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [, setCookie] = useCookies(['userName', 'userEmail']);
-  const { updateUser } = useUser(); //  Достаём функцию обновления контекста
+  const { updateUser } = useUser();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +24,7 @@ const Register = () => {
     setError('');
 
     try {
-      const response = await fetch('https://sol-api.sherstde.ru/register', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

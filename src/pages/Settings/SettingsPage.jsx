@@ -5,36 +5,28 @@ import { Download, Bell, User as UserIcon, Camera, Database, Trash2 } from 'luci
 import './SettingsPage.css';
 
 export function SettingsPage({ books = [] }) {
-  // Получаем пользователя из Контекста
   const { user, updateUser } = useUser();
-  
-  // Получаем куки для отправки на бэкенд
   const [cookies] = useCookies(['userId', 'sessionId']);
   const userId = cookies.userId;
   const sessionId = cookies.sessionId;
 
-  // Обычные переменные состояния (стейты)
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useState(user?.avatar || '');
   const [loading, setLoading] = useState(false);
 
-  // Ссылки на переключатели уведомлений
   const [emailNotify, setEmailNotify] = useState(true);
   const [remindReturn, setRemindReturn] = useState(true);
 
-  // Ссылка на скрытый input для файла
   const fileInputRef = useRef(null);
 
-  // Кликая по картинке, имитируем клик по настоящему инпуту
   const handleAvatarClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // Когда выбрана новая картинка
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -44,7 +36,6 @@ export function SettingsPage({ books = [] }) {
     }
   };
 
-  // Функция выгрузки в JSON
   const handleExportJSON = () => {
     if (books.length === 0) {
       alert('У вас пока нет книг для экспорта!');
@@ -62,7 +53,6 @@ export function SettingsPage({ books = [] }) {
     link.remove();
   };
 
-  // Функция выгрузки в CSV (Excel)
   const handleExportCSV = () => {
     if (books.length === 0) {
       alert('У вас пока нет книг для экспорта!');
@@ -88,18 +78,16 @@ export function SettingsPage({ books = [] }) {
     link.remove();
   };
 
-  // Сохранение изменений
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     const updatedUser = { name, email, avatar };
-    
-    // Сразу сохраняем локально, чтобы профиль моментально обновился
     updateUser(updatedUser);
 
     try {
-      const response = await fetch(`https://sol-api.sherstde.ru/user/${userId}`, {
+      // ✅ ЗДЕСЬ БЫЛА ЗАМЕНА
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +108,6 @@ export function SettingsPage({ books = [] }) {
     }
   };
 
-  // Очистка кэша
   const handleClearCache = () => {
     const isSure = window.confirm('Вы уверены? Это сбросит кэш и выйдет из аккаунта.');
     if (isSure) {
@@ -134,9 +121,7 @@ export function SettingsPage({ books = [] }) {
     <div className="settings-container">
       <div className="settings-grid">
         
-        {/* Левая колонка */}
         <div className="settings-column">
-          {/* Фото профиля */}
           <div className="book-card settings-card">
             <div className="card-section-header">
               <Camera size={18} />
@@ -170,7 +155,6 @@ export function SettingsPage({ books = [] }) {
             </div>
           </div>
 
-          {/* Форма данных */}
           <div className="book-card settings-card">
             <div className="card-section-header">
               <UserIcon size={18} />
@@ -216,9 +200,7 @@ export function SettingsPage({ books = [] }) {
           </div>
         </div>
 
-        {/* Правая колонка */}
         <div className="settings-column">
-          {/* Уведомления */}
           <div className="book-card settings-card">
             <div className="card-section-header">
               <Bell size={18} />
@@ -256,7 +238,6 @@ export function SettingsPage({ books = [] }) {
             </div>
           </div>
 
-          {/* Экспорт */}
           <div className="book-card settings-card">
             <div className="card-section-header">
               <Download size={18} />
@@ -276,7 +257,6 @@ export function SettingsPage({ books = [] }) {
             </div>
           </div>
 
-          {/* Кэш */}
           <div className="book-card settings-card">
             <div className="card-section-header">
               <Database size={18} />
